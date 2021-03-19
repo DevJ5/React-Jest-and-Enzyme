@@ -9,6 +9,7 @@ const setup = (initialState = {}) => {
   const wrapper = shallow(<Input store={store} />)
     .dive()
     .dive();
+
   //console.log(wrapper.debug());
   return wrapper;
 };
@@ -52,5 +53,20 @@ describe('render', () => {
       const submitButton = findByTestAttr(wrapper, 'submit-button');
       expect(submitButton.length).toBe(0);
     });
+  });
+});
+
+describe('redux props', () => {
+  test('has success piece of state as prop', () => {
+    const success = true;
+    const wrapper = setup({ success });
+    const successProp = wrapper.instance().props.success;
+    expect(successProp).toBe(success);
+  });
+
+  test('`guessWord` action creator is a function prop', () => {
+    const wrapper = setup();
+    const guessWordProps = wrapper.instance().props.guessWord;
+    expect(guessWordProps).toBeInstanceOf(Function);
   });
 });
