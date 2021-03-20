@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 
 import { findByTestAttr, storeFactory } from '../test/testUtils';
-import App from './App';
+import App, { UnconnectedApp } from './App';
 
 const defaultState = {
   success: false,
@@ -61,4 +61,21 @@ describe('redux properties', () => {
     const getSecretWordProp = wrapper.instance().props.getSecretWord;
     expect(getSecretWordProp).toBeInstanceOf(Function);
   });
+});
+
+test('`getSecretWord` runs on App mount', () => {
+  const getSecretWordMock = jest.fn();
+  const props = {
+    getSecretWord: getSecretWordMock,
+    success: true,
+    guessedWords: [],
+  };
+  const wrapper = shallow(<UnconnectedApp getSecretWord={getSecretWordMock} />);
+  // Clear mock first, because shallow calls did mount.
+  getSecretWordMock.mockClear();
+  wrapper.instance().componentDidMount();
+
+  // check to see if mock ran
+  const getSecretWordCallCount = getSecretWordMock.mock.calls.length;
+  expect(getSecretWordCallCount).toBe(1);
 });
