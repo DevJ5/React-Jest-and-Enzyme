@@ -4,7 +4,7 @@ import './App.css';
 
 import GuessedWords from './GuessedWords';
 import Congrats from './Congrats';
-import { Input } from './Input';
+import Input from './Input';
 import { getSecretWord } from './actions';
 
 export class UnconnectedApp extends Component {

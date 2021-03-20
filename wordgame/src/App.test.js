@@ -70,7 +70,7 @@ test('`getSecretWord` runs on App mount', () => {
     success: true,
     guessedWords: [],
   };
-  const wrapper = shallow(<UnconnectedApp getSecretWord={getSecretWordMock} />);
+  const wrapper = shallow(<UnconnectedApp {...props} />);
   // Clear mock first, because shallow calls did mount.
   getSecretWordMock.mockClear();
   wrapper.instance().componentDidMount();
