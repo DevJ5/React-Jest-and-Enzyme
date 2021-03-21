@@ -13,10 +13,17 @@ export class UnconnectedInput extends Component {
   }
 
   componentDidMount() {}
+
   submitHandler(e) {
     e.preventDefault();
-    this.props.guessWord(this.state.currentGuess);
+    const guessedWord = this.state.currentGuess.trim();
+
+    if (guessedWord) {
+      this.props.guessWord(this.state.currentGuess);
+      this.setState({ currentGuess: '' });
+    }
   }
+
   render() {
     let content = null;
     if (!this.props.success) {
