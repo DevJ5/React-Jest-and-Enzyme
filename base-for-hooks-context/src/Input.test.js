@@ -1,14 +1,21 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { findByTestAttr, checkProps } from '../test/testUtils';
 import Input from './Input';
+import languageContext from './contexts/languageContext';
 
-const setup = (secretWord = 'party') => {
-  return shallow(<Input secretWord={secretWord} />);
+const setup = ({ secretWord, language }) => {
+  language = language || 'en';
+  secretWord = secretWord || 'party';
+  return mount(
+    <languageContext.Provider value={language}>
+      <Input secretWord={secretWord} />
+    </languageContext.Provider>
+  );
 };
 
 test('Input renders without error', () => {
-  const wrapper = setup();
+  const wrapper = setup({});
   const component = findByTestAttr(wrapper, 'component-input');
   expect(component.length).toBe(1);
 });
@@ -18,14 +25,16 @@ test('does not throw warning with expected props', () => {
   checkProps(Input, expectedProps);
 });
 
-describe('state controller input field', () => {
+describe('state controlled input field', () => {
   let mockSetCurrentGuess = jest.fn();
   let wrapper;
+
   beforeEach(() => {
     mockSetCurrentGuess.mockClear();
     React.useState = jest.fn(() => ['', mockSetCurrentGuess]);
-    wrapper = setup();
+    wrapper = setup({});
   });
+
   test('state updates with value of input box upon change', () => {
     const inputBox = findByTestAttr(wrapper, 'input-box');
 
@@ -39,5 +48,18 @@ describe('state controller input field', () => {
 
     submitButton.simulate('click', { preventDefault() {} });
     expect(mockSetCurrentGuess).toHaveBeenCalledWith('');
+  });
+});
+
+describe('languagePicker', () => {
+  test('correctly renders submit string in english', () => {
+    const wrapper = setup({ language: 'en' });
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.text()).toBe('Submit');
+  });
+  test('correctly renders submit string in emoji', () => {
+    const wrapper = setup({ language: 'emoji' });
+    const submitButton = findByTestAttr(wrapper, 'submit-button');
+    expect(submitButton.text()).toBe('🚀');
   });
 });
