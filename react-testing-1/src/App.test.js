@@ -23,7 +23,7 @@ const setup = (props = {}) => {
 /**
  * Return ShallowWrapper containing node(s) with the given data-test value.
  * @param {ShallowWrapper} wrapper - Enzyme shallow wrapper to search within.
- * @param {string} val - Value of data-test c1scoL0ve!
+ * @param {string} val - Value of data-test
  *
  */
 const findByTestAttr = (wrapper, val) => {
@@ -94,27 +94,16 @@ describe('Decrement', () => {
 });
 describe('error when counter goes below 0', () => {
   test('error does not show when not needed', () => {
-    // I plan to implement this by using a "hidden" class for the error div
-    // I plan to use the data-test value 'error-message' for the error div
     const wrapper = setup();
     const errorDiv = findByTestAttr(wrapper, 'error-message');
-
-    // using enzyme's ".hasClass()" method
-    // http://airbnb.io/enzyme/docs/api/ShallowWrapper/hasClass.html
     const errorHasHiddenClass = errorDiv.hasClass('hidden');
     expect(errorHasHiddenClass).toBe(true);
   });
 
   describe('counter is 0 and decrement is clicked', () => {
-    // using a describe here so I can use a "beforeEach" for shared setup
-
-    // scoping wrapper to the describe, so it can be used in beforeEach and the tests
     let wrapper;
     beforeEach(() => {
-      // no need to set counter value here; default value of 0 is good
       wrapper = setup();
-
-      // find button and click
       const button = findByTestAttr(wrapper, 'decrement-button');
       button.simulate('click');
     });

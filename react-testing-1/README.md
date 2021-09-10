@@ -17,3 +17,4 @@
     ]
     }
   - npm run build will now remove the properties
+- npm install redux-thunk. Redux thunk is for dispatching functions, that can contain multiple actions.

@@ -9,7 +9,7 @@ const Input = ({ secretWord }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setCurrentGuess('');
+    setCurrentGuess(e.target.value);
   };
 
   return (
